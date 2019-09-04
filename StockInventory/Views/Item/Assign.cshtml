@@ -1,0 +1,170 @@
+﻿@model StockInventory.Models.Item
+
+@{
+    ViewBag.Title = "Asignar equipo";
+}
+
+<h2>Asignar equipo</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Región", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("RegionID", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Ciudad", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("CityID", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("DepartmentID", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("EmployeeID", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Asignar" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Regresar", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(document).ready(function () {
+        $("#CityID").children('option:not(:first)').remove();
+        $("#DepartmentID").children('option:not(:first)').remove();
+        $("#EmployeeID").children('option:not(:first)').remove();
+
+        $("#RegionID").on("change", function (data) {
+            if ($("#RegionID").val() == null || $("#RegionID").val().length < 1) {
+                return false;
+            }
+            else {
+                $.ajax({
+                    url: "/Item/GetCities",
+                    type: 'get',
+                    data: { id: $("#RegionID").val() },
+                    dataType: 'json',
+                    success: function (response) {
+                        var options = '';
+                        $("#CityID").children('option:not(:first)').remove();
+                        $("#DepartmentID").children('option:not(:first)').remove();
+                        $("#EmployeeID").children('option:not(:first)').remove();
+                        $.each(response, function (i, o) {
+                            options = options + `<option id='${o.ID}' value='${o.ID}'>${o.Name}</option>`
+                        })
+                        $("#CityID").append(options);
+                    },
+                    error: function (xhr) {
+                        console.log(xhr)
+                    }
+                });
+            }
+        })
+
+        $("#CityID").on("change", function (data) {
+            if ($("#CityID").val() == null || $("#CityID").val().length < 1) {
+                return false;
+            }
+            else {
+                $.ajax({
+                    url: "/Item/GetDepartments",
+                    type: 'get',
+                    data: { id: $("#CityID").val() },
+                    dataType: 'json',
+                    success: function (response) {
+                        var options = '';
+                        $("#DepartmentID").children('option:not(:first)').remove();
+                        $("#EmployeeID").children('option:not(:first)').remove();
+                        $.each(response, function (i, o) {
+                            options = options + `<option id='${o.ID}' value='${o.ID}'>${o.Type}</option>`
+                        })
+                        $("#DepartmentID").append(options);
+                    },
+                    error: function (xhr) {
+                        console.log(xhr)
+                    }
+                });
+            }
+        })
+
+        $("#DepartmentID").on("change", function (data) {
+            if ($("#DepartmentID").val() == null || $("#DepartmentID").val().length < 1) {
+                return false;
+            }
+            else {
+                $.ajax({
+                    url: "/Item/GetEmployees",
+                    type: 'get',
+                    data: { id: $("#DepartmentID").val() },
+                    dataType: 'json',
+                    success: function (response) {
+                        var options = '';
+                        $("#EmployeeID").children('option:not(:first)').remove();
+                        $.each(response, function (i, o) {
+                            options = options + `<option id='${o.ID}' value='${o.ID}'>${o.Cedula} - ${o.FirstName} ${o.LastName}</option>`
+                        })
+                        $("#EmployeeID").append(options);
+                    },
+                    error: function (xhr) {
+                        console.log(xhr)
+                    }
+                });
+            }
+        })
+    });
+    </script>
+}
