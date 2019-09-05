@@ -55,9 +55,9 @@
     </div>
 
     <div class="form-group">
-        @Html.Label("Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.Label("Oficina", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("DepartmentID", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("OfficeID", null, "Seleccione", htmlAttributes: new { @class = "form-control" })
         </div>
     </div>
 
@@ -85,7 +85,7 @@
 <script>
     $(document).ready(function () {
         $("#CityID").children('option:not(:first)').remove();
-        $("#DepartmentID").children('option:not(:first)').remove();
+        $("#OfficeID").children('option:not(:first)').remove();
         $("#EmployeeID").children('option:not(:first)').remove();
 
         $("#RegionID").on("change", function (data) {
@@ -101,11 +101,12 @@
                     success: function (response) {
                         var options = '';
                         $("#CityID").children('option:not(:first)').remove();
-                        $("#DepartmentID").children('option:not(:first)').remove();
+                        $("#OfficeID").children('option:not(:first)').remove();
                         $("#EmployeeID").children('option:not(:first)').remove();
                         $.each(response, function (i, o) {
                             options = options + `<option id='${o.ID}' value='${o.ID}'>${o.Name}</option>`
                         })
+                        console.log(options);
                         $("#CityID").append(options);
                     },
                     error: function (xhr) {
@@ -121,18 +122,19 @@
             }
             else {
                 $.ajax({
-                    url: "/Item/GetDepartments",
+                    url: "/Item/GetOffices",
                     type: 'get',
                     data: { id: $("#CityID").val() },
                     dataType: 'json',
                     success: function (response) {
                         var options = '';
-                        $("#DepartmentID").children('option:not(:first)').remove();
+                        $("#OfficeID").children('option:not(:first)').remove();
                         $("#EmployeeID").children('option:not(:first)').remove();
                         $.each(response, function (i, o) {
-                            options = options + `<option id='${o.ID}' value='${o.ID}'>${o.Type}</option>`
+                            options = options + `<option id='${o.ID}' value='${o.ID}'>${o.Name}</option>`
                         })
-                        $("#DepartmentID").append(options);
+                        console.log(options);
+                        $("#OfficeID").append(options);
                     },
                     error: function (xhr) {
                         console.log(xhr)
@@ -141,15 +143,15 @@
             }
         })
 
-        $("#DepartmentID").on("change", function (data) {
-            if ($("#DepartmentID").val() == null || $("#DepartmentID").val().length < 1) {
+        $("#OfficeID").on("change", function (data) {
+            if ($("#OfficeID").val() == null || $("#OfficeID").val().length < 1) {
                 return false;
             }
             else {
                 $.ajax({
                     url: "/Item/GetEmployees",
                     type: 'get',
-                    data: { id: $("#DepartmentID").val() },
+                    data: { id: $("#OfficeID").val() },
                     dataType: 'json',
                     success: function (response) {
                         var options = '';
@@ -157,6 +159,7 @@
                         $.each(response, function (i, o) {
                             options = options + `<option id='${o.ID}' value='${o.ID}'>${o.Cedula} - ${o.FirstName} ${o.LastName}</option>`
                         })
+                        console.log(options);
                         $("#EmployeeID").append(options);
                     },
                     error: function (xhr) {

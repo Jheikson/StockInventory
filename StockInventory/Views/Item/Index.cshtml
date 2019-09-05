@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Department.Type)
+            @Html.DisplayNameFor(model => model.Office.Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Type)
@@ -39,7 +39,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Department.Type)
+                @Html.DisplayFor(modelItem => item.Office.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
@@ -66,8 +66,8 @@
             <td>
                 @Html.ActionLink("Asignar", "Assign", new { id = item.ID }) |
                 @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Borrar", "Delete", new { id = item.ID })
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             </td>
         </tr>
     }

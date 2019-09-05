@@ -19,7 +19,7 @@ namespace StockInventory.Controllers
         public async Task<ActionResult> Index()
         {
             var item = db.Item
-                        .Include(i => i.Department)
+                        .Include(i => i.Office)
                         .Include(e => e.Employee);
             return View(await item.ToListAsync());
         }
@@ -42,7 +42,7 @@ namespace StockInventory.Controllers
         // GET: Item/Create
         public ActionResult Create()
         {
-            ViewBag.DepartmentID = new SelectList(db.Department, "ID", "Type");
+            ViewBag.OfficeID = new SelectList(db.Office, "ID", "Name");
             return View();
         }
 
@@ -51,7 +51,7 @@ namespace StockInventory.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Type,Marca,Model,Status,Observation,DepartmentID")] Item item)
+        public async Task<ActionResult> Create([Bind(Include = "ID,Type,Marca,Model,Status,Observation,OfficeID")] Item item)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,7 @@ namespace StockInventory.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DepartmentID = new SelectList(db.Department, "ID", "Type", item.DepartmentID);
+            ViewBag.OfficeID = new SelectList(db.Office, "ID", "Name", item.OfficeID);
             return View(item);
         }
 
@@ -77,7 +77,7 @@ namespace StockInventory.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DepartmentID = new SelectList(db.Department, "ID", "Type", item.DepartmentID);
+            ViewBag.OfficeID = new SelectList(db.Office, "ID", "Name", item.OfficeID);
             return View(item);
         }
 
@@ -86,7 +86,7 @@ namespace StockInventory.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Type,Marca,Model,Status,Observation,DepartmentID")] Item item)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Type,Marca,Model,Status,Observation,OfficeID")] Item item)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +94,7 @@ namespace StockInventory.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.DepartmentID = new SelectList(db.Department, "ID", "Type", item.DepartmentID);
+            ViewBag.OfficeID = new SelectList(db.Office, "ID", "Name", item.OfficeID);
             return View(item);
         }
         
@@ -136,6 +136,7 @@ namespace StockInventory.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.OfficeID = new SelectList(db.Office, "ID", "Name", item.OfficeID);
 
             var employees = db.Employee.ToList();
             List<object> selectListEmployees = new List<object>();
@@ -148,7 +149,7 @@ namespace StockInventory.Controllers
             ViewBag.EmployeeID = new SelectList(selectListEmployees, "Id", "Name");
             ViewBag.RegionID = new SelectList(db.Region, "ID", "Name");
             ViewBag.CityID = new SelectList(db.City, "ID", "Name");
-            ViewBag.DepartmentID = new SelectList(db.Department, "ID", "Type");
+            ViewBag.OfficeID = new SelectList(db.Office, "ID", "Name");
             return View(item);
         }
 
@@ -157,17 +158,17 @@ namespace StockInventory.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Assign([Bind(Include = "ID,Type,Marca,Model,Status,Observation,DepartmentID,EmployeeID")] Item item)
+        public ActionResult Assign([Bind(Include = "ID,Type,Marca,Model,Status,Observation,OfficeID,EmployeeID")] Item item)
         {
             if (ModelState.IsValid && item.EmployeeID != null)
             {
                 Item itemToUpdate = db.Item.FirstOrDefault(i => i.ID == item.ID);
                 itemToUpdate.EmployeeID = item.EmployeeID;
                 db.Entry(itemToUpdate).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.OfficeID = new SelectList(db.Office, "ID", "Name", item.OfficeID);
             var employees = db.Employee.ToList();
             List<object> selectListEmployees = new List<object>();
             foreach (var employee in employees)
@@ -179,7 +180,7 @@ namespace StockInventory.Controllers
             ViewBag.EmployeeID = new SelectList(selectListEmployees, "Id", "Name");
             ViewBag.RegionID = new SelectList(db.Region, "ID", "Name");
             ViewBag.CityID = new SelectList(db.City, "ID", "Name");
-            ViewBag.DepartmentID = new SelectList(db.Department, "ID", "Type");
+            ViewBag.OfficeID = new SelectList(db.Office, "ID", "Name");
             return View(item);
         }
 
@@ -197,18 +198,18 @@ namespace StockInventory.Controllers
             return Json(city, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> GetDepartments(Guid? id)
+        public async Task<ActionResult> GetOffices(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IEnumerable<Department> department = await db.Department.Where(c => c.CityID == id).ToListAsync();
-            if (department == null)
+            IEnumerable<Office> office = await db.Office.Where(c => c.CityID == id).ToListAsync();
+            if (office == null)
             {
                 return HttpNotFound();
             }
-            return Json(department, JsonRequestBehavior.AllowGet);
+            return Json(office, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> GetEmployees(Guid? id)
@@ -217,7 +218,7 @@ namespace StockInventory.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IEnumerable<Employee> employee = await db.Employee.Where(c => c.DepartmentID == id).ToListAsync();
+            IEnumerable<Employee> employee = await db.Employee.Where(c => c.OfficeID == id).ToListAsync();
             if (employee == null)
             {
                 return HttpNotFound();

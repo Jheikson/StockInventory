@@ -16,18 +16,15 @@ namespace StockInventory.CustomAttributes
 
         public override bool IsValid(object value)
         {
-            if (value is null)
+            if (value == null)
             {
                 return false;
             }
-
-            switch (value)
+            else if (value.GetType() == typeof(Guid))
             {
-                case Guid guid:
-                    return guid != Guid.Empty;
-                default:
-                    return true;
+                return (Guid)value != Guid.Empty;
             }
+            return true;
         }
     }
 }

@@ -14,7 +14,7 @@ public class StockInventoryContext : DbContext
 
     public DbSet<Item> Item { get; set; }
 
-    public DbSet<Department> Department { get; set; }
+    public DbSet<Office> Office { get; set; }
 
     public DbSet<Region> Region { get; set; }
 

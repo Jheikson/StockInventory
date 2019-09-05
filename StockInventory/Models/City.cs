@@ -9,7 +9,7 @@ namespace StockInventory.Models
     {
         public Guid ID { get; set; }
 
-        [Required(ErrorMessage = "El nombre de la ciudad es requerido"), MaxLength(30)]
+        [Required(ErrorMessage = "El nombre de la ciudad es requerido"), MaxLength(20)]
         [Display(Name = "Ciudad")]
         public string Name { get; set; }
 
@@ -19,6 +19,6 @@ namespace StockInventory.Models
 
         public Region Region { get; set; }
         
-        public ICollection<Department> Departments { get; set; }
+        public ICollection<Office> Offices { get; set; }
     }
 }

@@ -29,10 +29,10 @@ namespace StockInventory.Models
         public string Observation { get; set; }
 
         [NotEmpty]
-        [Display(Name = "Departamento")]
-        public Guid DepartmentID { get; set; }
+        [Display(Name = "Oficina")]
+        public Guid OfficeID { get; set; }
 
-        public Department Department { get; set; }
+        public Office Office { get; set; }
 
         [Display(Name = "Asignado a")]
         public Guid? EmployeeID { get; set; }

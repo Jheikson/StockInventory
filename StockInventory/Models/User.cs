@@ -9,7 +9,7 @@ namespace StockInventory.Models
     {
         public Guid ID { get; set; }
 
-        [Required(ErrorMessage = "El usuario es requerido"), MaxLength(20)]
+        [Required(ErrorMessage = "El usuario es requerido"), MaxLength(15)]
         [Display(Name = "Usuario")]
         public string UserName { get; set; }
 

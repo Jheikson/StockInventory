@@ -15,9 +15,9 @@ namespace StockInventory.Migrations
             AlterColumn("dbo.Employee", "Gerency", c => c.String(nullable: false, maxLength: 20));
             AlterColumn("dbo.Employee", "Deparment", c => c.String(nullable: false, maxLength: 20));
             AlterColumn("dbo.Employee", "Charge", c => c.String(nullable: false, maxLength: 20));
-            AlterColumn("dbo.department", "Name", c => c.String(nullable: false, maxLength: 30));
-            AlterColumn("dbo.department", "Code", c => c.String(nullable: false, maxLength: 5));
-            AlterColumn("dbo.department", "Direction", c => c.String(nullable: false, maxLength: 100));
+            AlterColumn("dbo.Office", "Name", c => c.String(nullable: false, maxLength: 30));
+            AlterColumn("dbo.Office", "Code", c => c.String(nullable: false, maxLength: 5));
+            AlterColumn("dbo.Office", "Direction", c => c.String(nullable: false, maxLength: 100));
             AlterColumn("dbo.Item", "Type", c => c.String(nullable: false, maxLength: 30));
             AlterColumn("dbo.Item", "Marca", c => c.String(nullable: false, maxLength: 30));
             AlterColumn("dbo.Item", "Model", c => c.String(maxLength: 30));
@@ -34,9 +34,9 @@ namespace StockInventory.Migrations
             AlterColumn("dbo.Item", "Model", c => c.String());
             AlterColumn("dbo.Item", "Marca", c => c.String());
             AlterColumn("dbo.Item", "Type", c => c.String());
-            AlterColumn("dbo.department", "Direction", c => c.String());
-            AlterColumn("dbo.department", "Code", c => c.String());
-            AlterColumn("dbo.department", "Name", c => c.String());
+            AlterColumn("dbo.Office", "Direction", c => c.String());
+            AlterColumn("dbo.Office", "Code", c => c.String());
+            AlterColumn("dbo.Office", "Name", c => c.String());
             AlterColumn("dbo.Employee", "Charge", c => c.String());
             AlterColumn("dbo.Employee", "Deparment", c => c.String());
             AlterColumn("dbo.Employee", "Gerency", c => c.String());
