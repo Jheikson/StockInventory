@@ -148,6 +148,10 @@
     <Compile Include="Migrations\201908301456228_2.Designer.cs">
       <DependentUpon>201908301456228_2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909050324429_3.cs" />
+    <Compile Include="Migrations\201909050324429_3.Designer.cs">
+      <DependentUpon>201909050324429_3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -165,8 +169,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\image\Back3.jpg" />
     <Content Include="Content\image\Backgrund6.jpg" />
-    <Content Include="Content\master.css" />
     <Content Include="favicon.ico" />
+    <Content Include="Content\master.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -252,6 +256,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908301456228_2.resx">
       <DependentUpon>201908301456228_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909050324429_3.resx">
+      <DependentUpon>201909050324429_3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

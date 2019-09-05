@@ -8,9 +8,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StockInventory.Models;
+using StockInventory.CustomAttributes;
 
 namespace StockInventory.Controllers
 {
+    [SessionAuthorize]
     public class OfficeController : Controller
     {
         private StockInventoryContext db = new StockInventoryContext();

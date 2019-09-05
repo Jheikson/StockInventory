@@ -27,4 +27,37 @@ input[type="checkbox"] {
     margin-top: 10px;
 }
 
+.navbar-inverse {
+    background-color: #3578E5;
+}
+
+.navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-brand, .btn-logout {
+    color: #ffffff;
+    font-weight: bold !important;
+    text-align: center;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #d7d7d7;
+}
     
+.navbar-inverse .navbar-nav > li > a:before{
+    content:'';
+    display:block;
+    height:4px;
+    background-color:#fff;
+    position:absolute;
+    top:0;
+    left:0;
+    width:0%;
+    transition: all ease-in-out 250ms;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover::before {
+    width: 100%;
+}
+
+.btn-logout {
+    background-color: transparent;
+    border: none;
+}

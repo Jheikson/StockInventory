@@ -7,20 +7,20 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <meta charset="utf-8">
-    <title>TealcaInventario</title>
+    <title>Tealca Inventario</title>
     <link rel="stylesheet" type="text/css" href="~/Content/master.css">
 </head>
 <body>
     <div class="login-box">
-        <form method="post" action="@Url.Action("validateLogin", "Login")">
+        <form method="post" action="@Url.Action("ValidateLogin", "Login")">
             <img class="avatar" src="~/Content/image/Back3.jpg" alt="Logo de Tealca">
             <h1>Bienvenidos a Tealca Inventario</h1>
             <!-- USERNAME -->
             <label for="username">Usuario</label>
-            <input type="text" id="username" name="username" placeholder="Ingrese Usuario">
+            <input type="text" id="username" name="username" placeholder="Ingrese Usuario" required="required">
             <!-- PASSWORD -->
             <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" placeholder="Ingrese Contraseña">
+            <input type="password" id="password" name="password" placeholder="Ingrese Contraseña" required="required">
             <input type="submit" id="btnEnviar" value="Iniciar Sesion">
         </form>
     </div>

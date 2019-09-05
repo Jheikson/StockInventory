@@ -1,69 +1,75 @@
 ﻿@model IEnumerable<StockInventory.Models.Item>
 
 @{
-    ViewBag.Title = "Lista de equipos";
+    ViewBag.Title = "Equipos";
 }
 
-<h2>Lista de equipos</h2>
+<h2>Equipos</h2>
 
-<p>
-    @Html.ActionLink("Agregar", "Create")
-</p>
-<table class="table">
+<div class="form-inline">
+    <p class="pull-left">
+        @Html.ActionLink("Agregar", "Create")
+    </p>
+    <div class="form-group pull-right" style="margin-bottom:15px">
+        <label for="filter" class="control-label">Filtrar:</label>
+        <input type="text" id="filter" name="filter" class="form-control" />
+    </div>
+</div>
+
+<table id="tableItems" class="table table-striped table-hover table-bordered">
     <tr>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.Office.Name)
         </th>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.Type)
         </th>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.Marca)
         </th>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.Model)
         </th>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.Status)
         </th>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.Observation)
         </th>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.EmployeeID)
         </th>
         <th></th>
     </tr>
-
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
+        <tr class="row-filter">
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.Office.Name)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.Marca)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.Observation)
             </td>
-            <td>
+            <td class="text-center">
                 @{
                     var employee = string.Empty;
                     if (item.Employee != null) { employee = item.Employee.Cedula + " - " + item.Employee.FirstName + " " + item.Employee.LastName; }
                 }
                 @Html.DisplayFor(modelItem => employee)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.ActionLink("Asignar", "Assign", new { id = item.ID }) |
                 @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID }) |
@@ -72,3 +78,22 @@
         </tr>
     }
 </table>
+
+@section Scripts {
+    <script>
+        $("#filter").on('keyup', function () {
+            filterTable(this.value)
+        })
+
+        function filterTable(value) {
+            $("#tableItems .row-filter").each(function () {
+                var found = false;
+                $(this).each(function () {
+                    if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) != -1)
+                        found = true;
+                    found == true ? $(this).show() : $(this).hide()
+                })
+            })
+        }
+    </script>
+}

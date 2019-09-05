@@ -1,15 +1,22 @@
 ﻿@model IEnumerable<StockInventory.Models.Employee>
 
 @{
-    ViewBag.Title = "Listado de empleados";
+    ViewBag.Title = "Empleados";
 }
 
-<h2>Listado de empleados</h2>
+<h2>Empleados</h2>
 
-<p>
-    @Html.ActionLink("Agregar", "Create")
-</p>
-<table class="table">
+<div class="form-inline">
+    <p class="pull-left">
+        @Html.ActionLink("Agregar", "Create")
+    </p>
+    <div class="form-group pull-right" style="margin-bottom:15px">
+        <label for="filter" class="control-label">Filtrar:</label>
+        <input type="text" id="filter" name="filter" class="form-control" />
+    </div>
+</div>
+
+<table class="table table-striped table-hover table-bordered" id="tableItems">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Office.Name)
@@ -38,38 +45,58 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Office.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cedula)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gerency)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Deparment)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Charge)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr class="row-filter">
+            <td>
+                @Html.DisplayFor(modelItem => item.Office.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gerency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deparment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Charge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@section Scripts {
+    <script>
+        $("#filter").on('keyup', function () {
+            filterTable(this.value)
+        })
+
+        function filterTable(value) {
+            $("#tableItems .row-filter").each(function () {
+                var found = false;
+                $(this).each(function () {
+                    if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) != -1)
+                        found = true;
+                    found == true ? $(this).show() : $(this).hide()
+                })
+            })
+        }
+    </script>
+}

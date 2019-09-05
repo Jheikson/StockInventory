@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Inventario de Equipos</title>
+    <title>@ViewBag.Title - Tealca Inventario</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -17,17 +17,30 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Inventario de Equipos", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Tealca Inventario", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav pull-right">
                     <li>@Html.ActionLink("Equipos", "Index", "Item")</li>
                     <li>@Html.ActionLink("Empleados", "Index", "Employee")</li>
                     <li>@Html.ActionLink("Oficinas", "Index", "Office")</li>
                     <li>@Html.ActionLink("Ciudades", "Index", "City")</li>
                     <li>@Html.ActionLink("Regiones", "Index", "Region")</li>
                     <li>@Html.ActionLink("Usuarios", "Index", "User")</li>
-                    <li>@Html.ActionLink("Cerrar Sesión", "Logout", "Login")</li>
+                    <li>
+                        <div class="btn-group" style="margin-top:14px">
+                            <button type="button" class="dropdown-toggle btn-logout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @Session["login"] <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#">
+                                        @Html.ActionLink("Cerrar Sesión", "Logout", "Login")
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -35,7 +48,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer class="container navbar-fixed-bottom">
             <p>&copy; @DateTime.Now.Year - By Gregory Arteaga and Geison Ravelo</p>
         </footer>
     </div>

@@ -1,15 +1,22 @@
 ﻿@model IEnumerable<StockInventory.Models.City>
 
 @{
-    ViewBag.Title = "Ciudad";
+    ViewBag.Title = "Ciudades";
 }
 
-<h2>Lista de ciudades</h2>
+<h2>Ciudades</h2>
 
-<p>
-    @Html.ActionLink("Agregar", "Create")
-</p>
-<table class="table">
+<div class="form-inline">
+    <p class="pull-left">
+        @Html.ActionLink("Agregar", "Create")
+    </p>
+    <div class="form-group pull-right" style="margin-bottom:15px">
+        <label for="filter" class="control-label">Filtrar:</label>
+        <input type="text" id="filter" name="filter" class="form-control" />
+    </div>
+</div>
+
+<table class="table table-striped table-hover table-bordered" id="tableCities">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.RegionID)
@@ -20,20 +27,40 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Region.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr class="row-filter">
+            <td>
+                @Html.DisplayFor(modelItem => item.Region.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@section Scripts {
+    <script>
+        $("#filter").on('keyup', function () {
+            filterTable(this.value)
+        })
+
+        function filterTable(value) {
+            $("#tableCities .row-filter").each(function () {
+                var found = false;
+                $(this).each(function () {
+                    if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) != -1)
+                        found = true;
+                    found == true ? $(this).show() : $(this).hide()
+                })
+            })
+        }
+    </script>
+}

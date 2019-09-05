@@ -17,7 +17,7 @@ namespace StockInventory.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult validateLogin(string username, string password)
+        public ActionResult ValidateLogin(string username, string password)
         {
             int result;
             string strConnect = System.Configuration.ConfigurationManager.
@@ -29,7 +29,7 @@ namespace StockInventory.Controllers
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.Add("@username", System.Data.SqlDbType.VarChar).Value = username;
                     cmd.Parameters.Add("@password", System.Data.SqlDbType.VarChar).Value = password;
-                    
+
                     try
                     {
                         conn.Open();
@@ -46,7 +46,7 @@ namespace StockInventory.Controllers
                         Session["login"] = username;
                         FormsAuthentication.SetAuthCookie(username, false);
                         return RedirectToAction("Index", "Home");
-                    } 
+                    }
                     else
                         return RedirectToAction("Index", "Login");
                 }
