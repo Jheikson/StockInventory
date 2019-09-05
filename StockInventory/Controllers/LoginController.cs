@@ -12,6 +12,7 @@ namespace StockInventory.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.LoginError = TempData["errorMessage"] != null ? TempData["errorMessage"].ToString() : "";
             return View();
         }
 
@@ -48,6 +49,7 @@ namespace StockInventory.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                     else
+                        TempData["errorMessage"] = "Usuario o clave errados";
                         return RedirectToAction("Index", "Login");
                 }
 
