@@ -160,14 +160,14 @@ namespace StockInventory.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Assign([Bind(Include = "ID,Type,Marca,Model,Status,Observation,OfficeID,EmployeeID")] Item item)
+        public async Task<ActionResult> Assign([Bind(Include = "ID,Type,Marca,Model,Status,Observation,OfficeID,EmployeeID")] Item item)
         {
             if (ModelState.IsValid && item.EmployeeID != null)
             {
                 Item itemToUpdate = db.Item.FirstOrDefault(i => i.ID == item.ID);
                 itemToUpdate.EmployeeID = item.EmployeeID;
                 db.Entry(itemToUpdate).State = EntityState.Modified;
-                db.SaveChangesAsync();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             ViewBag.OfficeID = new SelectList(db.Office, "ID", "Name", item.OfficeID);
